@@ -210,6 +210,14 @@ export default function MavenPantsPage() {
                           style={{ objectPosition: "center 20%" }}
                         />
                       </div>
+
+                      {/* Made-to-Measure Badge */}
+                      <div className="absolute top-3 left-3">
+                        <div className="bg-gray-900 text-white text-xs font-medium px-2 py-1 rounded shadow-sm">
+                          Made-to-Measure
+                        </div>
+                      </div>
+
                       <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-gray-50">
                         <Heart className="w-4 h-4" />
                       </button>

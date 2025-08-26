@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import { getImagePath } from "@/lib/utils";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -174,6 +175,7 @@ const allProducts = [
 
 export default function ProductPage() {
   const params = useParams();
+  const router = useRouter();
   const productSlug = params.id as string;
   const product = allProducts.find((p) => p.slug === productSlug);
 
@@ -193,6 +195,22 @@ export default function ProductPage() {
       setSelectedColor(product.colors[0]?.name || "");
     }
   }, [product]);
+
+  const handleScanNow = () => {
+    // Navigate to generate DOUBL ID
+    router.push("/generate-doubl-id");
+  };
+
+  useEffect(() => {
+    // Check for generated DOUBL ID from localStorage
+    const generatedId = localStorage.getItem("generatedDoublId");
+    if (generatedId) {
+      setDoublId(generatedId);
+      setDoublIdOption("input");
+      // Clear the stored ID
+      localStorage.removeItem("generatedDoublId");
+    }
+  }, []);
 
   if (!product) {
     return (
@@ -347,9 +365,7 @@ export default function ProductPage() {
                   </p>
                   <div className="flex gap-3">
                     <Button
-                      onClick={() => {
-                        /* Handle scan now */
-                      }}
+                      onClick={handleScanNow}
                       className="bg-gray-900 hover:bg-gray-800 text-white flex-1 transition-all duration-200 hover:shadow-lg active:scale-95"
                     >
                       SCAN NOW

@@ -201,6 +201,25 @@ export default function ProductPage() {
     router.push("/generate-doubl-id");
   };
 
+  const handleApplyId = () => {
+    if (!doublId.trim() || !product) return;
+
+    // Save product data to localStorage for checkout
+    const checkoutData = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      selectedColor: selectedColor,
+      doublId: doublId,
+      quantity: 1,
+    };
+
+    localStorage.setItem("checkoutProduct", JSON.stringify(checkoutData));
+
+    // Navigate to checkout
+    router.push("/checkout");
+  };
+
   useEffect(() => {
     // Check for generated DOUBL ID from localStorage
     const generatedId = localStorage.getItem("generatedDoublId");
@@ -347,9 +366,7 @@ export default function ProductPage() {
                     </p>
                   </div>
                   <Button
-                    onClick={() => {
-                      /* Handle apply ID */
-                    }}
+                    onClick={handleApplyId}
                     className="w-full bg-gray-900 hover:bg-gray-800 text-white transition-all duration-200 hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={!doublId}
                   >

@@ -196,29 +196,32 @@ export default function MavenPantsPage() {
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
               {products.map((product) => (
                 <div key={product.id} className="group">
-                  <div className="relative mb-4">
-                    <div className="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                      />
+                  <Link href={`/products/${product.slug}`}>
+                    <div className="relative mb-4 cursor-pointer">
+                      <div className="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden">
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                          style={{ objectPosition: "center 20%" }}
+                        />
+                      </div>
+                      <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-gray-50">
+                        <Heart className="w-4 h-4" />
+                      </button>
                     </div>
-                    <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-gray-50">
-                      <Heart className="w-4 h-4" />
-                    </button>
-                  </div>
 
-                  <h3 className="font-medium text-gray-900 mb-2">
-                    {product.name}
-                  </h3>
+                    <h3 className="font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-gray-700">
+                      {product.name}
+                    </h3>
+                  </Link>
 
-                  <div className="mb-3">
-                    <span className="font-medium text-gray-900">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <span className="font-bold text-gray-900">
                       {product.price}
                     </span>
                   </div>

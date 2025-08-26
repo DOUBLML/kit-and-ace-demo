@@ -1,4 +1,3 @@
-// COPY: Replace the entire content of app/products/[id]/page.tsx
 "use client";
 
 import Image from "next/image";
@@ -10,6 +9,14 @@ import Footer from "@/components/Footer";
 import { getImagePath } from "@/lib/utils";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 const allProducts = [
   {
@@ -175,6 +182,9 @@ export default function ProductPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
+  const [doublIdOption, setDoublIdOption] = useState("input");
+  const [doublId, setDoublId] = useState("");
+
   // Get other products for "Recently Viewed"
   const otherProducts = allProducts.filter((p) => p.slug !== productSlug);
 
@@ -282,31 +292,77 @@ export default function ProductPage() {
               </div>
             </div>
 
-            {/* Size Selection */}
+            {/* DOUBL Fit ID Section */}
             <div>
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-medium text-gray-900">
-                  Size: {selectedSize}
-                </h3>
-                <button className="text-sm text-gray-600 underline hover:text-gray-900">
-                  Size Guide
-                </button>
-              </div>
-              <div className="grid grid-cols-6 gap-2">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`py-3 px-4 border text-sm font-medium transition-colors ${
-                      selectedSize === size
-                        ? "border-gray-900 bg-gray-900 text-white"
-                        : "border-gray-300 text-gray-900 hover:border-gray-400"
-                    }`}
+              <h3 className="text-sm font-medium text-gray-900 mb-4">
+                How would you like to proceed?
+              </h3>
+
+              <Select value={doublIdOption} onValueChange={setDoublIdOption}>
+                <SelectTrigger className="w-full mb-4">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="input">Input DOUBL ID</SelectItem>
+                  <SelectItem value="no-doubl-id">
+                    I don't have a DOUBL ID
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+
+              {doublIdOption === "input" && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                      Enter your DOUBL ID
+                    </label>
+                    <Input
+                      type="text"
+                      placeholder="e.g., AB12-34CD-5678"
+                      value={doublId}
+                      onChange={(e) => setDoublId(e.target.value)}
+                      className="w-full"
+                    />
+                    <p className="text-sm text-gray-600 mt-1">
+                      Your encrypted fit profile; you'll confirm size at
+                      checkout.
+                    </p>
+                  </div>
+                  <Button
+                    onClick={() => {
+                      /* Handle apply ID */
+                    }}
+                    className="w-full bg-gray-900 hover:bg-gray-800 text-white transition-all duration-200 hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={!doublId}
                   >
-                    {size}
-                  </button>
-                ))}
-              </div>
+                    Apply ID
+                  </Button>
+                </div>
+              )}
+
+              {doublIdOption === "no-doubl-id" && (
+                <div className="space-y-4">
+                  <p className="text-sm text-gray-600">
+                    Don't have a DOUBL ID yet? Create one in under 60 seconds.
+                  </p>
+                  <div className="flex gap-3">
+                    <Button
+                      onClick={() => {
+                        /* Handle scan now */
+                      }}
+                      className="bg-gray-900 hover:bg-gray-800 text-white flex-1 transition-all duration-200 hover:shadow-lg active:scale-95"
+                    >
+                      SCAN NOW
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 hover:shadow-md active:scale-95"
+                    >
+                      What is DOUBL ID?
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Add to Cart */}

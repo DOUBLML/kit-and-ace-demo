@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getImagePath } from "@/lib/utils";
@@ -28,6 +29,7 @@ const allProducts = [
     sku: "KWB10327-10022-XXS",
     rating: 4.8,
     reviews: 38,
+    isMadeToMeasure: true,
     colors: [
       { name: "Black", value: "#000000" },
       { name: "Navy", value: "#1a237e" },
@@ -65,6 +67,7 @@ const allProducts = [
     sku: "KWB10327-10023-XXS",
     rating: 4.9,
     reviews: 42,
+    isMadeToMeasure: true,
     colors: [
       { name: "Black", value: "#000000" },
       { name: "Navy", value: "#1a237e" },
@@ -101,6 +104,7 @@ const allProducts = [
     name: "Maven Wide Leg Pants",
     price: "$190.00",
     sku: "KWB10327-10024-XXS",
+    isMadeToMeasure: true,
     rating: 4.7,
     reviews: 35,
     colors: [
@@ -141,6 +145,7 @@ const allProducts = [
     sku: "KWB10327-10025-XXS",
     rating: 4.8,
     reviews: 29,
+    isMadeToMeasure: true,
     colors: [
       { name: "Olive", value: "#556b2f" },
       { name: "Black", value: "#000000" },
@@ -294,6 +299,11 @@ export default function ProductPage() {
           {/* Product Details */}
           <div className="space-y-6">
             <div>
+              {product.isMadeToMeasure && (
+                <Badge className="mb-3 bg-gray-100 text-gray-800 border border-gray-300 font-medium">
+                  Made-to-Measure
+                </Badge>
+              )}
               <h1 className="text-3xl font-bold text-gray-900 mb-4">
                 {product.name}
               </h1>
@@ -554,6 +564,11 @@ export default function ProductPage() {
               <div key={item.id} className="group">
                 <Link href={`/products/${item.slug}`}>
                   <div className="aspect-[3/4] bg-gray-100 relative mb-4 cursor-pointer">
+                    {item.isMadeToMeasure && (
+                      <Badge className="absolute top-4 left-4 z-10 bg-gray-100 text-gray-800 border border-gray-300 font-medium text-sm px-3 py-1">
+                        Made-to-Measure
+                      </Badge>
+                    )}
                     <Image
                       src={getImagePath(`/${item.images[0]}`)}
                       alt={item.name}
